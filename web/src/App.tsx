@@ -1,11 +1,14 @@
-/** @format */
-
-import React from 'react'
-import './App.css'
-import Routes from './routes'
-
+import React from 'react';
+//import './App.css'
+import Routes from './routes';
+import GlobalStyle from './styles/global';
 function App() {
-  return <Routes />
+  return (
+    <>
+      <GlobalStyle />
+      <Routes />
+    </>
+  );
 }
 
-export default App
+export default App;

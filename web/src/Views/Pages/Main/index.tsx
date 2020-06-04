@@ -1,13 +1,14 @@
 
 import React from 'react'
 import logo from '../../../assets/logo.svg';
-import './style.css';
+//import './style.css';
+import { Container } from './style';
 import { FiLogIn } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const Main = () => {
   return (
-    <div id="main">
+    <Container>
       <div className="content">
         <header>
         <img src={logo} alt="Logo EcoLeta"/>
@@ -27,7 +28,7 @@ const Main = () => {
           </Link>
         </main>
       </div>
-    </div>
+    </Container>
   )
 }
 

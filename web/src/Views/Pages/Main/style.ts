@@ -1,7 +1,9 @@
-#main{
+import styled from 'styled-components';
+import bgImage from '../../../assets/home-background.svg'
+
+export const Container = styled.div`
   height: 100vh;
-  background: url('../../../assets/home-background.svg') no-repeat 680px bottom;
-}
+  background: url(${bgImage}) no-repeat 680px bottom;
   .content {
     width: 100%;
     height: 100%;
@@ -103,5 +105,4 @@
       font-size: 24px;
     }
   }
-
-
+`
