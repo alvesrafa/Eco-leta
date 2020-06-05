@@ -8,7 +8,7 @@ interface Teste {
 export const Container = styled.View`
   flex:1;
   padding: 0 32px;
-  padding-top: 20px;
+  padding-top: 42px;
 `
 export const Title = styled.Text`
 font-size: 20px;
