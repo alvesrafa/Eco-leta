@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import knex from '../database/connection';
-const SERVER_URL = 'http://localhost:3333';
+const SERVER_URL = 'http://192.168.0.197:3333';
 
 class ItemsController {
   async index(req: Request, res: Response) {

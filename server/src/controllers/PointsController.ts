@@ -12,17 +12,16 @@ class PointsController {
 
     try {
 
-      const points = await knex('points')
-        .join('point_items', 'points.id', '=', 'point_items.point_id')
-        .whereIn('point_items.item_id', parsedItems)
-        .where('city', String(city))
-        .where('uf', String(uf))
-        .distinct()
-        .select('points.*')
-
-
-
+      // const points = await knex('points')
+      //   .join('point_items', 'points.id', '=', 'point_items.point_id')
+      //   .whereIn('point_items.item_id', parsedItems)
+      //   .where('city', String(city))
+      //   .where('uf', String(uf))
+      //   .distinct()
+      //   .select('points.*')
+      const points = await knex.select().from('points')
       return res.status(201).json({ success: true, points })
+
     } catch (e) {
       console.error('Erro ao buscar pontos de coleta', e)
       return res.status(400).json({ success: false, message: 'Erro ao buscar pontos de coleta' })
@@ -34,17 +33,18 @@ class PointsController {
   async show(req: Request, res: Response) {
     const { id } = req.params;
     try {
-
-      const point = await knex('points').where('id', id).first();
+      console.log('aqui')
+      const point = await knex.select().from('points').where('id', id).first();
+      console.log('aqui', point)
       if (!point) {
         return res.status(400).json({ success: false, message: 'Não foi possível encontrar o ponto de coleta' })
       }
-
+      console.log('aqui')
       const items = await knex('items')
         .join('point_items', 'items.id', '=', 'point_items.item_id')
         .where('point_items.point_id', id)
         .select('items.title')
-
+      console.log('aqui')
       return res.status(201).json({ succes: true, point, items })
 
     } catch (e) {
