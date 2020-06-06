@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import { ItemsList, Form } from './style';
 import MapComponent from '../MapComponent';
 import Confirmation from '../Confirmation';
-
+import DropZone from '../DropZone';
+import Error from '../Error';
+import validation from '../../../utils/validations';
+import InputMask from 'react-input-mask';
 
 interface FormPoint {
   setSelectedPosition: Function;
@@ -31,9 +34,16 @@ interface Item {
   title: string;
   image_url: string;
 }
+interface Error {
+  path: string;
+  messages: string[];
+}
 const FormPoint = (props: FormPoint) => {
   const history = useHistory();
+  const schema = validation.point;
   const [confirmation, setConfirmation] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [errors, setErrors] = useState<Error>();
   const {
     formData,
     setFormData,
@@ -65,16 +75,23 @@ const FormPoint = (props: FormPoint) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const submitData = async () => {
     const items = selectedItems;
     const [latitude, longitude] = selectedPosition;
-    const data = {
-      ...formData,
-      items,
-      latitude,
-      longitude,
-    };
+    const { name, email, whatsapp, uf, city } = formData;
+
+    const data = new FormData();
+    data.append('name', name);
+    data.append('email', email);
+    data.append('whatsapp', whatsapp);
+    data.append('uf', uf);
+    data.append('city', city);
+    data.append('items', items.join(','));
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
+    if (selectedFile) {
+      data.append('image', selectedFile);
+    }
 
     await api
       .post('points', data)
@@ -93,14 +110,42 @@ const FormPoint = (props: FormPoint) => {
       });
   };
 
+  const handleSubmit = async () => {
+    const items = selectedItems;
+    const [latitude, longitude] = selectedPosition;
+    const { name, email, whatsapp, uf, city } = formData;
+    const data = {
+      items,
+      longitude,
+      latitude,
+      name,
+      email,
+      whatsapp,
+      uf,
+      city,
+    };
+    console.log('data', data);
+    await schema
+      .validate(data)
+      .then(() => {
+        submitData();
+      })
+      .catch((e) => {
+        console.log(data);
+        setErrors({ path: e.path, messages: e.errors });
+        console.error(e.errors);
+      });
+  };
+
   return (
     <>
-    {confirmation ? <Confirmation /> : ''}
-    
+      {confirmation ? <Confirmation /> : ''}
+
       <Form onSubmit={handleSubmit}>
         <h1>
           Cadastro do <br /> ponto de coleta
         </h1>
+        <DropZone onFileUploaded={setSelectedFile} />
         <fieldset>
           <legend>
             <h2>Dados</h2>
@@ -113,6 +158,9 @@ const FormPoint = (props: FormPoint) => {
               id="name"
               onChange={handleInputChange}
             />
+            {errors &&
+              errors.path === 'name' &&
+              errors.messages.map((err) => <Error key={err}>{err}</Error>)}
           </div>
           <div className="field-group">
             <div className="field">
@@ -123,6 +171,9 @@ const FormPoint = (props: FormPoint) => {
                 id="email"
                 onChange={handleInputChange}
               />
+              {errors &&
+                errors.path === 'email' &&
+                errors.messages.map((err) => <Error key={err}>{err}</Error>)}
             </div>
             <div className="field">
               <label htmlFor="whatsapp">Whatsapp</label>
@@ -132,6 +183,9 @@ const FormPoint = (props: FormPoint) => {
                 id="whatsapp"
                 onChange={handleInputChange}
               />
+              {errors &&
+                errors.path === 'whatsapp' &&
+                errors.messages.map((err) => <Error key={err}>{err}</Error>)}
             </div>
           </div>
         </fieldset>
@@ -147,7 +201,9 @@ const FormPoint = (props: FormPoint) => {
             position={selectedPosition}
             initialPosition={initialPosition}
           />
-
+          {errors &&
+                (errors.path === 'latitude' || errors.path === 'longitude') &&
+                errors.messages.map((err) => <Error key={err}>{err}</Error>)}
           <div className="field-group">
             <div className="field">
               <label htmlFor="uf">Estado (UF)</label>
@@ -164,6 +220,9 @@ const FormPoint = (props: FormPoint) => {
                   </option>
                 ))}
               </select>
+              {errors &&
+                errors.path === 'uf' &&
+                errors.messages.map((err) => <Error key={err}>{err}</Error>)}
             </div>
             <div className="field">
               <label htmlFor="city">Cidade</label>
@@ -180,6 +239,9 @@ const FormPoint = (props: FormPoint) => {
                   </option>
                 ))}
               </select>
+              {errors &&
+                errors.path === 'city' &&
+                errors.messages.map((err) => <Error key={err}>{err}</Error>)}
             </div>
           </div>
         </fieldset>
@@ -205,9 +267,14 @@ const FormPoint = (props: FormPoint) => {
               <h3>Nenhum item registrado até o momento.</h3>
             )}
           </ItemsList>
+          {errors &&
+            errors.path === 'items' &&
+            errors.messages.map((err) => <Error key={err}>{err}</Error>)}
         </fieldset>
 
-        <button type="submit">Cadastrar ponto de coleta</button>
+        <button type="button" onClick={handleSubmit}>
+          Cadastrar ponto de coleta
+        </button>
       </Form>
     </>
   );

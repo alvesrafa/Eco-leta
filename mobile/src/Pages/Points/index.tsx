@@ -34,6 +34,7 @@ interface Item {
 interface Point {
   id: number;
   image: string;
+  image_url: string;
   name: string;
   latitude: number;
   longitude: number;
@@ -98,7 +99,7 @@ const Points = () => {
       .then((response) => {
         if (response.data.success) {
           setPoints(response.data.points);
-          console.log(response.data.points)
+          console.log('points',response.data.points)
         } else {
           throw "Não foi possivel localizar os pontos de coleta";
         }
@@ -159,7 +160,7 @@ const Points = () => {
                     <MapMarkerImage
                       source={{
                         uri:
-                          `${point.image}`,
+                          `${point.image_url}`,
                       }}
                     />
                     <MapMarkerTitle>{point.name}</MapMarkerTitle>

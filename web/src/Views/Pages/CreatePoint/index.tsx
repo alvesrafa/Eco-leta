@@ -34,7 +34,7 @@ const CreatePoint = () => {
     0,
   ]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',

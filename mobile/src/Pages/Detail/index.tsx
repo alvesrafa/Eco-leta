@@ -24,6 +24,7 @@ interface Params {
 interface Data {
   point: {
     image: string;
+    image_url: string;
     name: string;
     email: string;
     whatsapp: string;
@@ -79,7 +80,7 @@ const Detail = () => {
         </TouchableOpacity>
         <PointImage
           source={{
-            uri: data.point.image,
+            uri: data.point.image_url,
           }}
         />
         <PointName>{data.point.name}</PointName>
