@@ -6,7 +6,7 @@
 
 <div align="center">
 
-[![GitHub Issues](https://img.shields.io/badge/build-25%25-red)](https://github.com/alvesrafa/Eco-leta)
+
 [![GitHub Issues](https://img.shields.io/badge/Rocketseat-%20community-blueviolet)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
 [![GitHub Issues](https://img.shields.io/badge/back--end-node.JS-brightgreen)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
 [![GitHub Issues](https://img.shields.io/npm/types/typescript?style=plastic)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
@@ -30,7 +30,6 @@
 - [Demo](#demo)
 - [Como contribuir?](#contributing)
 - [Getting Started](#getting_started)
-- [Minha Experiência](#)
 - [Author](#authors)
 
 ## 🧐 Sobre <a name = "about"></a>
