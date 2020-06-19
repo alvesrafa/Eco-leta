@@ -81,6 +81,10 @@
 ### Fork
 
 - Faça um fork deste repositório para dentro da sua conta no Github e siga os passos abaixo para rodar a aplicação de forma local 😀
+- Cria uma branch com a sua feature: git checkout -b minha-feature;
+- Faça commit das suas alterações: git commit -m 'feat: Minha nova feature';
+- Faça push para a sua branch: git push origin minha-feature.
+##### Contato
 - Você também pode entrar em contato comigo para informar quaisquer tipo de melhoria que acha viável! [Linkedin](https://www.linkedin.com/in/alvrafael/)
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
